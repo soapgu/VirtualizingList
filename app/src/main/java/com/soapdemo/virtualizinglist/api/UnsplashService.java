@@ -11,7 +11,7 @@ import io.reactivex.rxjava3.core.Single;
 import okhttp3.Request;
 
 public class UnsplashService {
-    private static String url = "https://api.unsplash.com/search/photos?client_id=ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM&query=%s&page=%d&per_page=d%}";
+    private static String url = "https://api.unsplash.com/search/photos?client_id=ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM&query=%s&page=%d&per_page=%d";
 
     /**
      * 搜索unsplash图片
