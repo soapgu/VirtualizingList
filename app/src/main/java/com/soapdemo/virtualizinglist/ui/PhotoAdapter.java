@@ -35,7 +35,6 @@ public class PhotoAdapter extends PagingDataAdapter<Photo, PhotoAdapter.ViewHold
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         ViewDataBinding binding = DataBindingUtil.getBinding(holder.itemView);
         assert binding != null;
-        //binding.setContent(  (String)this.mDataSet.get(position));
         binding.setVariable(BR.datacontext , getItem(position) );
         binding.executePendingBindings();
 

@@ -14,8 +14,10 @@ public class UnsplashService {
     private static String url = "https://api.unsplash.com/search/photos?client_id=ki5iNzD7hebsr-d8qUlEJIhG5wxGwikU71nsqj8PcMM&query=%s&page=%d&per_page=%d";
 
     /**
-     * 搜索unsplash图片
+     * 搜索unsplash图片api实现
      * @param searchKey 搜索关键字
+     * @param page 当前页码，从1开始
+     * @param size 获取数据数量大小
      * @return 搜索结果
      */
     public Single<PageResults<Photo>> SearchPhotos( String searchKey , int page , int size ){
