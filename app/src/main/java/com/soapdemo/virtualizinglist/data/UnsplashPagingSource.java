@@ -20,7 +20,7 @@ import io.reactivex.rxjava3.schedulers.Schedulers;
 public class UnsplashPagingSource extends RxPagingSource<Integer,Photo> {
     private String searchKey;
     private UnsplashService service;
-    private static final int NETWORK_PAGE_SIZE = 10;
+    public static final int NETWORK_PAGE_SIZE = 10;
 
     public UnsplashPagingSource( String searchKey,UnsplashService service ){
         this.searchKey = searchKey;
