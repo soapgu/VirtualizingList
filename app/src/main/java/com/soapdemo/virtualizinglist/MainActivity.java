@@ -28,6 +28,4 @@ public class MainActivity extends AppCompatActivity {
         binding.buttonSearch.setOnClickListener( v -> viewModel.Search()
                 .subscribe(photoPagingData -> adapter.submitData( this.getLifecycle(), photoPagingData)));
     }
-
-
 }

@@ -6,6 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.paging.PagingState;
 import androidx.paging.rxjava3.RxPagingSource;
 
+import com.orhanobut.logger.Logger;
 import com.soapdemo.virtualizinglist.api.UnsplashService;
 import com.soapdemo.virtualizinglist.model.PageResults;
 import com.soapdemo.virtualizinglist.model.Photo;
@@ -32,11 +33,14 @@ public class UnsplashPagingSource extends RxPagingSource<Integer,Photo> {
     public Single<LoadResult<Integer, Photo>> loadSingle(@NotNull LoadParams<Integer> loadParams) {
         Integer nextPageNumber = loadParams.getKey();
         if (nextPageNumber == null) {
+            Logger.i( "-----First Request for Photo-----" );
             nextPageNumber = 1;
         }
+        Logger.i( "----Begin Request,Load Photo searchKey :%s, page：%d size:%d", this.searchKey , nextPageNumber , loadParams.getLoadSize() );
 
         Integer finalNextPageNumber = nextPageNumber;
         return service.SearchPhotos(searchKey, nextPageNumber,loadParams.getLoadSize())
+                .doOnError( e-> Logger.e( e, "SearchPhotos Error:(,%s",e.getMessage() ) )
                 .subscribeOn(Schedulers.io())
                 .map( photoPageResults -> toLoadResult(photoPageResults, finalNextPageNumber) )
                 .onErrorReturn(LoadResult.Error::new);
@@ -45,6 +49,7 @@ public class UnsplashPagingSource extends RxPagingSource<Integer,Photo> {
 
     private LoadResult<Integer, Photo> toLoadResult(
             @NonNull PageResults<Photo> response , Integer currentPage) {
+        Logger.i( "----End Request,Load size:%d",response.results.size() );
         return new LoadResult.Page<>(
                 response.results,
                 currentPage == 1 ? null : currentPage - 1,
