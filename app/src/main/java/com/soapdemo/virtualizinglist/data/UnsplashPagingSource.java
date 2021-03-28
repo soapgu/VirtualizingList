@@ -50,6 +50,11 @@ public class UnsplashPagingSource extends RxPagingSource<Integer,Photo> {
     private LoadResult<Integer, Photo> toLoadResult(
             @NonNull PageResults<Photo> response , Integer currentPage) {
         Logger.i( "----End Request,Load size:%d",response.results.size() );
+        for (int i = 0 ; i<response.results.size();i++
+             ) {
+            Photo photo = response.results.get(i);
+            photo.position = (currentPage - 1 ) * NETWORK_PAGE_SIZE + i + 1;
+        }
         return new LoadResult.Page<>(
                 response.results,
                 currentPage == 1 ? null : currentPage - 1,

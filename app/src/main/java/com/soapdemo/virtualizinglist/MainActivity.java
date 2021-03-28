@@ -8,6 +8,7 @@ import androidx.paging.LoadState;
 import android.os.Bundle;
 import android.view.View;
 
+import com.orhanobut.logger.Logger;
 import com.soapdemo.virtualizinglist.databinding.ActivityMainBinding;
 import com.soapdemo.virtualizinglist.ui.PhotoAdapter;
 import com.soapdemo.virtualizinglist.ui.PhotoComparator;
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         binding.listPhoto.setAdapter(adapter);
         adapter.addLoadStateListener( loadStates -> {
                     // Only show the list if refresh succeeds.
+                    Logger.i( "Current Refresh State:" + loadStates.getRefresh().toString() );
                     binding.listPhoto.setVisibility(loadStates.getRefresh() instanceof LoadState.NotLoading
                             ? View.VISIBLE : View.GONE);
 
@@ -45,6 +47,7 @@ public class MainActivity extends AppCompatActivity {
                     return null;
                 }
          );
+        binding.retryButton.setOnClickListener( v -> adapter.retry() );
         binding.buttonSearch.setOnClickListener( v -> {
             if( searchJob != null && !searchJob.isDisposed() ) {
                 searchJob.dispose();
