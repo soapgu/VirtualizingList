@@ -12,6 +12,7 @@ import com.orhanobut.logger.Logger;
 import com.soapdemo.virtualizinglist.databinding.ActivityMainBinding;
 import com.soapdemo.virtualizinglist.ui.PhotoAdapter;
 import com.soapdemo.virtualizinglist.ui.PhotoComparator;
+import com.soapdemo.virtualizinglist.ui.PhotoLoadStateAdapter;
 import com.soapdemo.virtualizinglist.viewmodel.MainViewModel;
 
 import io.reactivex.rxjava3.disposables.Disposable;
@@ -30,7 +31,12 @@ public class MainActivity extends AppCompatActivity {
         ActivityMainBinding binding  = DataBindingUtil.setContentView(this, R.layout.activity_main);
         binding.setDatacontext( viewModel );
         adapter = new PhotoAdapter( new PhotoComparator());
-        binding.listPhoto.setAdapter(adapter);
+
+        binding.listPhoto.setAdapter( adapter.withLoadStateHeaderAndFooter(
+                new PhotoLoadStateAdapter(v ->  adapter.retry() ),
+                new PhotoLoadStateAdapter(v ->  adapter.retry() )
+        ) );
+
         adapter.addLoadStateListener( loadStates -> {
                     // Only show the list if refresh succeeds.
                     Logger.i( "Current Refresh State:" + loadStates.getRefresh().toString() );
