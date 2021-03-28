@@ -10,4 +10,6 @@ public class Photo {
     public String alt_description;
 
     public transient int position;
+
+    public PhotoUrl urls;
 }
