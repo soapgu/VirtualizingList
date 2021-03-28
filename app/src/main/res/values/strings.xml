@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">VirtualizingList</string>
+    <string name="retry">retry</string>
 </resources>

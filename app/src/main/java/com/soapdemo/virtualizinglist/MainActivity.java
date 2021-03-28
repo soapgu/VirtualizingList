@@ -3,8 +3,10 @@ package com.soapdemo.virtualizinglist;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.databinding.DataBindingUtil;
 import androidx.lifecycle.ViewModelProvider;
+import androidx.paging.LoadState;
 
 import android.os.Bundle;
+import android.view.View;
 
 import com.soapdemo.virtualizinglist.databinding.ActivityMainBinding;
 import com.soapdemo.virtualizinglist.ui.PhotoAdapter;
@@ -28,6 +30,21 @@ public class MainActivity extends AppCompatActivity {
         binding.setDatacontext( viewModel );
         adapter = new PhotoAdapter( new PhotoComparator());
         binding.listPhoto.setAdapter(adapter);
+        adapter.addLoadStateListener( loadStates -> {
+                    // Only show the list if refresh succeeds.
+                    binding.listPhoto.setVisibility(loadStates.getRefresh() instanceof LoadState.NotLoading
+                            ? View.VISIBLE : View.GONE);
+
+                    // Show loading spinner during initial load or refresh.
+                    binding.progressBar.setVisibility(loadStates.getRefresh() instanceof LoadState.Loading
+                            ? View.VISIBLE : View.GONE);
+
+                    // Show the retry state if initial load or refresh fails.
+                    binding.retryButton.setVisibility(loadStates.getRefresh() instanceof LoadState.Error
+                            ? View.VISIBLE : View.GONE);
+                    return null;
+                }
+         );
         binding.buttonSearch.setOnClickListener( v -> {
             if( searchJob != null && !searchJob.isDisposed() ) {
                 searchJob.dispose();
